@@ -1,3 +1,11 @@
 spring:
   application:
     name: hhplus-week2
+
+
+  datasource:
+    url: jdbc:mysql://localhost:3306/hhplus-lecture
+    driver-class-name:
+    username:
+    password:
+

@@ -1,16 +1,14 @@
 package org.hhplus.hhplusweek2.domain.lecture;
 
-import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
-import java.sql.Time;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import lombok.Getter;
 import lombok.Setter;
 import org.hhplus.hhplusweek2.domain.common.Base;
+import org.hhplus.hhplusweek2.application.lecture.dto.LectureDto;
 import org.hibernate.annotations.ColumnDefault;
 
 @Getter
@@ -30,5 +28,14 @@ public class Lecture extends Base {
 
     @ColumnDefault("30")
     private int capacity;
+
+    /**
+     * domain -> infrastructure 영역
+     * @param dto
+     * @return
+     */
+    public static Lecture toEntity(LectureDto dto){
+        return new Lecture();
+    }
 
 }
