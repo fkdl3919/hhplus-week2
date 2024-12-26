@@ -108,7 +108,48 @@ public class LectureFacadeIntegrationTest {
         assertEquals(capacity, findLectureBookings.size());
     }
 
+    /**
+     * 동시성
+     * test case 2
+     * - 동일한 유저 정보로 같은 특강을 5번 신청했을 때, 1번만 성공하는 것을 검증
+     */
+    @Test
+    @DisplayName("동시성 테스트 - 동일한 유저 정보로 같은 특강을 5번 신청했을 때, 1번만 성공하는 것을 검증")
+    public void concurrentBookLectureIntegrationTest() throws InterruptedException {
+        // given
+        int threadCount = 5;
 
+        // 정원
+        int capacity = 30;
+        long userId1 = 1L;
+        long lectureId = lecture.getId();
+
+        ExecutorService executorService = Executors.newFixedThreadPool(threadCount);
+        CountDownLatch countDownLatch = new CountDownLatch(threadCount);
+
+        // when
+
+        for (int i = 0; i < threadCount; i++) {
+            executorService.submit(() -> {
+                try{
+                    lectureFacade.bookLecture(new LectureCommand(lectureId, userId1));
+                } catch(Exception e) {
+                    e.printStackTrace();
+                }finally {
+                    countDownLatch.countDown();
+                }
+                return null;
+            });
+        }
+        countDownLatch.await();
+
+        Lecture findLecture = lectureService.findByIdWithLock(lecture.getId());
+        List<LectureBooking> findLectureBookings = lectureBookingService.findByUserId(userId1);
+
+        // then
+        assertEquals(capacity - 1, findLecture.getCapacity());
+        assertEquals(1, findLectureBookings.size());
+    }
 
 
 }
