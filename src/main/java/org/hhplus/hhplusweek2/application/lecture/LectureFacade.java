@@ -44,4 +44,7 @@ public class LectureFacade {
 
     }
 
+    public List<LectureDto> getAvailableLectures(LocalDate date){
+        return LectureDto.toDtos(lectureService.findAvailableLecturesByDate(date));
+    }
 }
