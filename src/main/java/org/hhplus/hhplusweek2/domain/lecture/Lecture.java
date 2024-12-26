@@ -5,7 +5,10 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDate;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hhplus.hhplusweek2.domain.common.Base;
 import org.hhplus.hhplusweek2.application.lecture.dto.LectureDto;
@@ -14,6 +17,8 @@ import org.hibernate.annotations.ColumnDefault;
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 public class Lecture extends Base {
 
     @Id
@@ -27,15 +32,18 @@ public class Lecture extends Base {
     private LocalDate date;
 
     @ColumnDefault("30")
-    private int capacity;
+    private Integer capacity = 30;
 
     /**
-     * domain -> infrastructure 영역
-     * @param dto
-     * @return
+     * 수강 신청 시 잔여 정원 감소
      */
-    public static Lecture toEntity(LectureDto dto){
-        return new Lecture();
+    public void decreaseCapacity() {
+        this.capacity--;
     }
 
+    public void validAvailable() {
+        if(this.getCapacity() == 0 ){
+            throw new IllegalArgumentException("정원이 초과된 특강입니다.");
+        }
+    }
 }
