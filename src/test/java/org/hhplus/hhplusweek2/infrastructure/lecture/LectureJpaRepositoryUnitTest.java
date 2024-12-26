@@ -6,6 +6,8 @@ import java.time.temporal.ChronoUnit;
 import java.util.Arrays;
 import java.util.List;
 import org.hhplus.hhplusweek2.domain.lecture.Lecture;
+import org.hhplus.hhplusweek2.domain.lecturebooking.LectureBooking;
+import org.hhplus.hhplusweek2.infrastructure.lecturebooking.LectureBookingJpaRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,8 @@ public class LectureJpaRepositoryUnitTest {
 
     @Autowired
     private LectureJpaRepository lectureJpaRepository;
+    @Autowired
+    private LectureBookingJpaRepository lectureBookingJpaRepository;
 
     /**
      * 특강 신청 가능 목록
@@ -86,5 +90,37 @@ public class LectureJpaRepositoryUnitTest {
 
     }
 
+    /**
+     * 특강 신청 완료 목록 조회
+     * - test case 1
+     *  - 입력한 userId의 예약한 특강이 조회되는지 검증
+     */
+    @Test
+    @DisplayName("특강 신청 완료 목록 조회 - 입력한 userId의 예약한 특강이 조회되는지 검증")
+    public void bookedLecturesByUserId(){
+        // given
+        LocalDate now = LocalDate.now();
+
+        long userId1 = 1L;
+        long userId2 = 2L;
+
+        List<Lecture> lectures = lectureJpaRepository.saveAll(Arrays.asList(
+            new Lecture(null, "특강1", "강연자1", now, 30),
+            new Lecture(null, "특강2", "강연자2", now, 30),
+            new Lecture(null, "특강3", "강연자3", now, 30)
+        ));
+
+        for (Lecture lecture : lectures) {
+            lectureBookingJpaRepository.save(new LectureBooking(lecture.getId(), userId1));
+        }
+
+        // when
+        List<Lecture> findLectures = lectureJpaRepository.findBookedLecturesByUserId(userId1);
+        List<Lecture> findLectures2 = lectureJpaRepository.findBookedLecturesByUserId(userId2);
+
+        // then
+        assertEquals(lectures.size(), findLectures.size());
+        assertTrue(findLectures2.isEmpty());
+    }
 
 }

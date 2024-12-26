@@ -33,4 +33,11 @@ public class LectureRepositoryImpl implements LectureRepository {
     public List<Lecture> saveAll(List<Lecture> lectures) {
         return lectureJpaRepository.saveAll(lectures);
     }
+
+    @Override
+    public List<Lecture> findBookedLecturesByUserId(Long userId) {
+        return lectureJpaRepository.findBookedLecturesByUserId(userId);
+    }
+
+
 }

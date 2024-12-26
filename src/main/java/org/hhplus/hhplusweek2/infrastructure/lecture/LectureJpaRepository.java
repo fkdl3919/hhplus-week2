@@ -8,7 +8,14 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface LectureJpaRepository extends JpaRepository<Lecture, Long> {
 
-    @Query(value = "select a from Lecture a where a.date = :date and a.capacity != 0")
+    @Query("select a from Lecture a where a.date = :date and a.capacity != 0")
     List<Lecture> findAvailableLecturesByDate(LocalDate date);
+
+    /**
+     * Lecture와 LectureBooking를 join하여 주어진 userId로 검색
+     * @return
+     */
+    @Query("select a from Lecture a join LectureBooking b on a.id = b.lectureId where b.userId = :userId order by b.id desc ")
+    List<Lecture> findBookedLecturesByUserId(Long userId);
 
 }

@@ -33,4 +33,7 @@ public class LectureService {
         return lectureRepository.findAvailableLecturesByDate(date);
     }
 
+    public List<Lecture> findBookedLecturesByUserId(Long userId) {
+        return lectureRepository.findBookedLecturesByUserId(userId);
+    }
 }

@@ -46,4 +46,16 @@ public class LectureController {
         return ResponseEntity.ok(LectureResponse.fromDtos(lectureFacade.getAvailableLectures(date)));
     }
 
+    /**
+     * 특강 신청 완료 목록 조회 api
+     * @param userId
+     * @return
+     */
+    @GetMapping
+    public ResponseEntity<List<LectureResponse>> bookedLectures(
+        @RequestParam Long userId
+    ) {
+        return ResponseEntity.ok(LectureResponse.fromDtos(lectureFacade.getBookedLectures(userId)));
+    }
+
 }
