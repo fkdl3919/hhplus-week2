@@ -8,7 +8,7 @@ public interface LectureRepository {
 
     Lecture save(Lecture lecture);
 
-    Optional<Lecture> findById(Long id);
+    Optional<Lecture> findByIdWithLock(Long id);
 
     List<Lecture> findAvailableLecturesByDate(LocalDate date);
 

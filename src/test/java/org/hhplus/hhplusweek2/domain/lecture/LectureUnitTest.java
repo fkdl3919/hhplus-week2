@@ -4,14 +4,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import jakarta.persistence.EntityNotFoundException;
 import java.util.Optional;
-import org.hhplus.hhplusweek2.application.lecture.LectureFacade;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 @ExtendWith(MockitoExtension.class)
@@ -30,10 +27,10 @@ public class LectureUnitTest {
         long lectureId = 1L;
 
         // stub
-        when(lectureRepository.findById(lectureId)).thenReturn(Optional.empty());
+        when(lectureRepository.findByIdWithLock(lectureId)).thenReturn(Optional.empty());
 
         // when
-        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> lectureService.findById(lectureId));
+        EntityNotFoundException ex = assertThrows(EntityNotFoundException.class, () -> lectureService.findByIdWithLock(lectureId));
 
         // then
         assertEquals("특강이 존재하지 않습니다.", ex.getMessage());

@@ -19,13 +19,13 @@ public class LectureService {
 
     private final LectureRepository lectureRepository;
 
-    @Transactional
     public Lecture save(Lecture lecture) {
         return lectureRepository.save(lecture);
     }
 
-    public Lecture findById(Long id) {
-        Lecture lecture = lectureRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("특강이 존재하지 않습니다."));
+    @Transactional
+    public Lecture findByIdWithLock(Long id) {
+        Lecture lecture = lectureRepository.findByIdWithLock(id).orElseThrow(() -> new EntityNotFoundException("특강이 존재하지 않습니다."));
         return lecture;
     }
 

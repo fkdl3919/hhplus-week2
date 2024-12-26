@@ -51,7 +51,7 @@ public class LectureFacadeUnitTest {
         lectureBooking.setUserId(lectureCommand.userId());
 
         // stub
-        when(lectureService.findById(lectureCommand.lectureId())).thenReturn(lecture);
+        when(lectureService.findByIdWithLock(lectureCommand.lectureId())).thenReturn(lecture);
 
         // 해당 특강의 유저가 존재하는 경우
         when(lectureBookingService.findByLectureIdAndUserId(lectureCommand.lectureId(), lectureCommand.userId())).thenReturn(lectureBooking);
@@ -88,7 +88,7 @@ public class LectureFacadeUnitTest {
         lectureBooking.setUserId(lectureCommand.userId());
 
         // stub
-        when(lectureService.findById(lectureCommand.lectureId())).thenReturn(lecture);
+        when(lectureService.findByIdWithLock(lectureCommand.lectureId())).thenReturn(lecture);
         when(lectureBookingService.findByLectureIdAndUserId(lectureCommand.lectureId(), lectureCommand.userId())).thenReturn(null);
 
         // when
@@ -123,7 +123,7 @@ public class LectureFacadeUnitTest {
         lectureBooking.setUserId(lectureCommand.userId());
 
         // stub
-        when(lectureService.findById(lectureCommand.lectureId())).thenReturn(lecture);
+        when(lectureService.findByIdWithLock(lectureCommand.lectureId())).thenReturn(lecture);
         when(lectureBookingService.findByLectureIdAndUserId(lectureCommand.lectureId(), lectureCommand.userId())).thenReturn(null);
 
         // when

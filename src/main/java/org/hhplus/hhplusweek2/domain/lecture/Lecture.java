@@ -41,5 +41,9 @@ public class Lecture extends Base {
         this.capacity--;
     }
 
-
+    public void validAvailable() {
+        if(this.getCapacity() == 0 ){
+            throw new IllegalArgumentException("정원이 초과된 특강입니다.");
+        }
+    }
 }

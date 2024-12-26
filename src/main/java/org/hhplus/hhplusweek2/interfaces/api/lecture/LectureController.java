@@ -51,7 +51,7 @@ public class LectureController {
      * @param userId
      * @return
      */
-    @GetMapping
+    @GetMapping("/booked")
     public ResponseEntity<List<LectureResponse>> bookedLectures(
         @RequestParam Long userId
     ) {
