@@ -11,7 +11,7 @@ import org.springframework.data.jpa.repository.Query;
 
 public interface LectureJpaRepository extends JpaRepository<Lecture, Long> {
 
-    @Lock(LockModeType.PESSIMISTIC_READ)
+    @Lock(LockModeType.PESSIMISTIC_WRITE)
     @Query("select a from Lecture a where a.id = :id")
     Optional<Lecture> findByIdWithLock(Long id);
 
